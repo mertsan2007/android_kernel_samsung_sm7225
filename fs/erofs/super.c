@@ -116,7 +116,15 @@ static int superblock_read(struct super_block *sb)
 		goto out;
 	}
 
-	blkszbits = layout->blkszbits;
+	sbi->feature_compat = le32_to_cpu(dsb->feature_compat);
+	if (erofs_sb_has_sb_chksum(sbi)) {
+		ret = erofs_superblock_csum_verify(sb, data);
+		if (ret)
+			goto out;
+	}
+
+	ret = -EINVAL;
+	blkszbits = dsb->blkszbits;
 	/* 9(512 bytes) + LOG_SECTORS_PER_BLOCK == LOG_BLOCK_SIZE */
 	if (unlikely(blkszbits != LOG_BLOCK_SIZE)) {
 		errln("blksize %u isn't supported on this platform",
