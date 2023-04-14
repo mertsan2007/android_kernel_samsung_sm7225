@@ -339,7 +339,7 @@ struct erofs_vnode {
 	unsigned char data_mapping_mode;
 	/* inline size in bytes */
 	unsigned char inode_isize;
-	unsigned short xattr_isize;
+	unsigned int xattr_isize;
 
 	unsigned xattr_shared_count;
 	unsigned *xattr_shared_xattrs;
