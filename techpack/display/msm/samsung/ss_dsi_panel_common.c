@@ -2964,12 +2964,6 @@ int ss_panel_off_post(struct samsung_display_driver_data *vdd)
 
 	LCD_INFO("[DISPLAY_%d] +\n", vdd->ndx);
 
-	if (vdd->finger_mask)
-		vdd->finger_mask = 0;
-
-	if (vdd->br_info.common_br.finger_mask_bl_level)
-		vdd->br_info.common_br.finger_mask_bl_level = 0;
-
 	if (vdd->mdnie.support_trans_dimming)
 		vdd->mdnie.disable_trans_dimming = true;
 
@@ -5908,7 +5902,7 @@ int ss_brightness_dcs(struct samsung_display_driver_data *vdd, int level, int ba
 			/* Video mode : no need additional delay */
 
 			backup_acl = vdd->br_info.acl_status;
-			if (vdd->finger_mask_updated && vdd->br_info.common_br.bl_level != vdd->br_info.common_br.finger_mask_bl_level) /* do not backup br.bl_level at on to on */
+			if (vdd->finger_mask_updated) /* do not backup br.bl_level at on to on */
 				backup_bl_level = vdd->br_info.common_br.bl_level;
 			level = vdd->br_info.common_br.finger_mask_bl_level;
 			vdd->br_info.acl_status = 0;
